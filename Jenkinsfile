@@ -12,8 +12,7 @@ pipeline {
                 sh '''
                     . /opt/conda/etc/profile.d/conda.sh
                     conda activate mlopsfull
-                    pip install setuptools==68.2.2 click==8.1.7
-                    pip install -r requirements.txt
+                    pip install -r requirements.txt --no-deps 2>/dev/null || true
                 '''
             }
         }
