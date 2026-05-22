@@ -4,22 +4,17 @@ USER root
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-venv \
-    git \
-    curl \
-    wget \
+    git curl wget build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python packages
-RUN pip3 install --no-cache-dir \
-    mlflow==2.3.1 \
-    ray==2.7.0 \
-    torch==2.0.0 \
-    transformers==4.28.1 \
-    scikit-learn==1.2.2 \
-    numpy==1.24.3 \
-    pandas==2.0.1
+# Install Miniforge (free, no TOS issues)
+RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O /tmp/miniforge.sh && \
+    bash /tmp/miniforge.sh -b -p /opt/conda && \
+    rm /tmp/miniforge.sh
+
+ENV PATH="/opt/conda/bin:${PATH}"
+
+# Create Python 3.10 environment
+RUN conda create -n mlopsfull python=3.10 -y
 
 USER jenkins
