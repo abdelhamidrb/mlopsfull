@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 from pathlib import Path
+import logging.config  # important, souvent oublié
 
 import mlflow
 
